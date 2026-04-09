@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectSummary.Data;
 using ProjectSummary.Models;
-using static ProjectSummary.Models.Request;
+using ProjectSummary.Models.Requests;
 
 namespace ProjectSummary.Controllers
 {
@@ -38,7 +38,7 @@ namespace ProjectSummary.Controllers
 
         // Добавить товар в корзину
         [HttpPost("add")]
-        public async Task<IActionResult> AddToCart([FromBody] Request.AddToCartRequest request)
+        public async Task<IActionResult> AddToCart([FromBody] AddToCartRequest request)
         {
             if (request == null)
                 return BadRequest(new { success = false, message = "Пустой запрос" });
@@ -78,7 +78,7 @@ namespace ProjectSummary.Controllers
 
         // Изменить количество товара в корзине
         [HttpPut("update")]
-        public async Task<IActionResult> UpdateQuantity([FromBody] Request.UpdateQuantityRequest request)
+        public async Task<IActionResult> UpdateQuantity([FromBody] UpdateQuantityRequest request)
         {
             if (request == null)
                 return BadRequest(new { success = false, message = "Пустой запрос" });

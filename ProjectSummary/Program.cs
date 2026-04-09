@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ЕДИНАЯ НАСТРОЙКА JWT (объединяем оба блока)
+// ЕДИНАЯ НАСТРОЙКА JWT
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.ASCII.GetBytes(jwtSettings["Key"] ?? "MySuperSecretKey1234567890123456");
 
@@ -29,7 +29,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false; // Для разработки
+    options.RequireHttpsMetadata = false;
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -43,7 +43,7 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings["Audience"],
 
         ValidateLifetime = true,
-        ClockSkew = TimeSpan.Zero // Убираем задержку времени
+        ClockSkew = TimeSpan.Zero 
     };
 });
 
@@ -52,7 +52,6 @@ builder.Services.AddAuthorization();
 // Регистрируем сервисы
 builder.Services.AddSingleton<JwtTokenService>();
 
-// Построение приложения
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

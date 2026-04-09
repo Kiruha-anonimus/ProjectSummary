@@ -1,4 +1,6 @@
-﻿namespace ProjectSummary.Models
+﻿using ProjectSummary.Models.Entities;
+
+namespace ProjectSummary.Models
 {
     public class CartItem
     {

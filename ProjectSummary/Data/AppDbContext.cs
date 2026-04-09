@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectSummary.Models;
+using ProjectSummary.Models.Entities;
 
 namespace ProjectSummary.Data
 {

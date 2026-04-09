@@ -1,4 +1,4 @@
-﻿namespace ProjectSummary.Models
+﻿namespace ProjectSummary.Models.Entities
 {
     public class Product
     {

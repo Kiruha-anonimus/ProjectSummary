@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectSummary.Data;
-using ProjectSummary.Models;
-using static ProjectSummary.Models.Request;
+using ProjectSummary.Models.Entities;
+using ProjectSummary.Models.Requests;
 
 namespace ProjectSummary.Controllers
 {

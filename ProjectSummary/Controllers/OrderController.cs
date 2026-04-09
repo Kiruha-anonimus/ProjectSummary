@@ -4,7 +4,8 @@ using ProjectSummary.Data;
 using ProjectSummary.Models;
 using ProjectSummary.Models.Enums;
 using ProjectSummary.Models.DTOs;
-using static ProjectSummary.Models.Request;
+using ProjectSummary.Models.Requests;
+using ProjectSummary.Models.Entities;
 
 namespace ProjectSummary.Controllers
 {

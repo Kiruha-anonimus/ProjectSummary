@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using ProjectSummary.Data;
 using ProjectSummary.Models;
 using ProjectSummary.Services;
-using static ProjectSummary.Models.Request;
+using ProjectSummary.Models.Requests;
+using ProjectSummary.Models.Responses;
+using ProjectSummary.Models.Entities;
 
 namespace ProjectSummary.Controllers
 {
