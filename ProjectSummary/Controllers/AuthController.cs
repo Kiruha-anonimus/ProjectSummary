@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectSummary.Data;
-using ProjectSummary.Models;
 using ProjectSummary.Services;
 using ProjectSummary.Models.Requests;
 using ProjectSummary.Models.Responses;
 using ProjectSummary.Models.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectSummary.Controllers
 {
@@ -16,7 +16,7 @@ namespace ProjectSummary.Controllers
         private readonly AppDbContext _context;
         private readonly JwtTokenService _tokenService;
 
-        public AuthController(AppDbContext context, JwtTokenService tokenService)
+        public AuthController(AppDbContext context, JwtTokenService tokenService)  // сюда тож интерфейс сделать тот же jwt
         {
             _context = context;
             _tokenService = tokenService;
@@ -24,20 +24,8 @@ namespace ProjectSummary.Controllers
 
         // api/register
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([Required][FromBody] RegisterRequest request)
         {
-            if (request == null ||
-                string.IsNullOrEmpty(request.Username) ||
-                string.IsNullOrEmpty(request.Password) ||
-                string.IsNullOrEmpty(request.Email))
-            {
-                return BadRequest(new BaseResponse
-                {
-                    Success = false,
-                    Message = "Некорректные данные"
-                });
-            }
-
             var existingUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == request.Email);
 
@@ -69,19 +57,8 @@ namespace ProjectSummary.Controllers
 
         // api/login
         [HttpPost("login")]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public IActionResult Login([Required][FromBody] LoginRequest request)
         {
-            if (request == null ||
-                string.IsNullOrEmpty(request.Email) ||
-                string.IsNullOrEmpty(request.Password))
-            {
-                return BadRequest(new BaseResponse
-                {
-                    Success = false,
-                    Message = "Некорректные данные"
-                });
-            }
-
             var user = _context.Users
                 .FirstOrDefault(u => u.Email == request.Email);
 

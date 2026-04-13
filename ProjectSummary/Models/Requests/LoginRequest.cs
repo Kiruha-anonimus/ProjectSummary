@@ -1,8 +1,12 @@
-﻿namespace ProjectSummary.Models.Requests
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProjectSummary.Models.Requests
 {
     public class LoginRequest
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        [Required]
+        public string Email { get; set; } = null!;
+        [Required]
+        public string Password { get; set; } = null!;
     }
 }

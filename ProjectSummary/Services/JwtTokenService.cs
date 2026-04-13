@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ProjectSummary.Services
 {
-    public class JwtTokenService
+    public class JwtTokenService              // добавить интерфейс
     {
         private readonly IConfiguration _config;
 

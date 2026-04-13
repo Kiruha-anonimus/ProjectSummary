@@ -112,10 +112,7 @@ namespace ProjectSummary.Controllers
             if (order == null)
                 return NotFound("Заказ не найден");
 
-            if (!Enum.TryParse<OrderStatus>(request.Status, true, out var status))
-                return BadRequest("Неверный статус");
-
-            order.Status = status;
+            order.Status = request.Status;
 
             await _context.SaveChangesAsync();
 

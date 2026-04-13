@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProjectSummary.Data;
-using ProjectSummary.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -20,7 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // ЕДИНАЯ НАСТРОЙКА JWT
 var jwtSettings = builder.Configuration.GetSection("Jwt");
-var key = Encoding.ASCII.GetBytes(jwtSettings["Key"] ?? "MySuperSecretKey1234567890123456");
+var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]!);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -50,7 +48,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 // Регистрируем сервисы
-builder.Services.AddSingleton<JwtTokenService>();
+builder.Services.AddSingleton<JwtTokenService>();        // добавить интерфейс
 
 var app = builder.Build();
 

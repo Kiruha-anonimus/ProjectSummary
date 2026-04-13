@@ -1,8 +1,10 @@
-﻿namespace ProjectSummary.Models.Requests
+﻿using ProjectSummary.Models.Enums;
+
+namespace ProjectSummary.Models.Requests
 {
     public class UpdateStatusRequest
     {
         public int OrderId { get; set; }
-        public string Status { get; set; }
+        public OrderStatus Status { get; set; }
     }
 }
