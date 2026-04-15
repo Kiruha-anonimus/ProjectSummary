@@ -1,11 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProjectSummary.Data;
-using ProjectSummary.Services;
 using ProjectSummary.Models.Requests;
-using ProjectSummary.Models.Responses;
-using ProjectSummary.Models.Entities;
-using System.ComponentModel.DataAnnotations;
 
 namespace ProjectSummary.Controllers
 {
@@ -13,72 +7,33 @@ namespace ProjectSummary.Controllers
     [Route("api")]
     public class AuthController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly JwtTokenService _tokenService;
+        private readonly IAuthService _authService;
 
-        public AuthController(AppDbContext context, JwtTokenService tokenService)  // сюда тож интерфейс сделать тот же jwt
+        public AuthController(IAuthService authService)
         {
-            _context = context;
-            _tokenService = tokenService;
+            _authService = authService;
         }
 
-        // api/register
         [HttpPost("register")]
-        public async Task<IActionResult> Register([Required][FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var existingUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == request.Email);
+            var result = await _authService.RegisterAsync(request);
 
-            if (existingUser != null)
-            {
-                return BadRequest(new BaseResponse
-                {
-                    Success = false,
-                    Message = "Пользователь с такой почтой уже существует"
-                });
-            }
+            if (!result.Success)
+                return BadRequest(result);
 
-            var user = new User
-            {
-                Username = request.Username,
-                Email = request.Email,
-                Password = request.Password
-            };
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return Ok(new BaseResponse
-            {
-                Success = true,
-                Message = "Пользователь зарегистрирован"
-            });
+            return Ok(result);
         }
 
-        // api/login
         [HttpPost("login")]
-        public IActionResult Login([Required][FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var user = _context.Users
-                .FirstOrDefault(u => u.Email == request.Email);
+            var result = await _authService.LoginAsync(request);
 
-            if (user == null || user.Password != request.Password)
-            {
-                return Unauthorized(new BaseResponse
-                {
-                    Success = false,
-                    Message = "Неверный email или пароль"
-                });
-            }
+            if (!result.Success)
+                return Unauthorized(result);
 
-            var token = _tokenService.GenerateToken(user.Id, user.Username, user.Email);
-
-            return Ok(new
-            {
-                Success = true,
-                Message = "Успешный вход",
-                Token = token
-            });
+            return Ok(result);
         }
     }
 }
